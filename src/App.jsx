@@ -1,7 +1,8 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar.jsx";
 import BinCard from "./Components/BinCard.jsx";
-import trashBins from "./data";
+import trashBins from "./data.js";
+import Map from "./Components/Map.jsx"
 
 function App() {
   const [search,setSearch] = useState("");
@@ -28,6 +29,7 @@ function App() {
           <option value="Full">Full</option>
           </select>
         </section>
+        <Map />
         <section className="bin-list">
           {filteredBins.length>0 ?(filteredBins.map(
             (bin) => (
