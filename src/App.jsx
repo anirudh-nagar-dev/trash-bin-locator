@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar.jsx";
+import Navbar from "./Components/Navbar.jsx";
 import BinCard from "./Components/BinCard.jsx";
 import trashBins from "./data.js";
 import Map from "./Components/Map.jsx"
@@ -7,6 +7,7 @@ import Map from "./Components/Map.jsx"
 function App() {
   const [search,setSearch] = useState("");
   const [status,setStatus] = useState("All");
+  const [userLocation,setUserLocation] = useState(null);
 
   const filteredBins = trashBins.filter((bin) => {
     const matchesSearch = bin.name.toLowerCase().includes(search.toLowerCase());
@@ -29,11 +30,12 @@ function App() {
           <option value="Full">Full</option>
           </select>
         </section>
-        <Map />
+        <Map userLocation={userLocation} 
+        setUserLocation={setUserLocation} />
         <section className="bin-list">
           {filteredBins.length>0 ?(filteredBins.map(
             (bin) => (
-              <BinCard key={bin.id} bin={bin} />
+              <BinCard key={bin.id} bin={bin} userLocation={userLocation} />
             ))):(<p>No trash bins found.</p>)}
         </section>
       </main>

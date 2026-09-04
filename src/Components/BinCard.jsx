@@ -1,4 +1,7 @@
-function BinCard({bin}){
+import calculateDistance from "../distance.js";
+
+
+function BinCard({ bin,userLocation }){
     let statusStyle = {
         color: "white",
         backgroundColor: "#15803d",
@@ -15,12 +18,23 @@ function BinCard({bin}){
             backgroundColor: "#dc2626",
         };
     }
+    const distance = userLocation
+     ? calculateDistance(
+        userLocation[0],
+        userLocation[1],
+        bin.latitude,
+        bin.longitude
+      )
+     : null; 
+
+
+
     return (
         <div className="bin-card">
             <h2>🗑️ {bin.name}</h2>
 
             <p>📍 {bin.location}</p>
-            <p>📏 {bin.distance} km away</p>
+            <p>📏 {distance != null ? distance.toFixed(2) : "..."} km away</p>
             <p className="status" style={statusStyle}>
                 ♻️ Status: {bin.status}
             </p>
