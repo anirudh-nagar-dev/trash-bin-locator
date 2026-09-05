@@ -26,9 +26,6 @@ function BinCard({ bin,userLocation }){
         bin.longitude
       )
      : null; 
-
-
-
     return (
         <div className="bin-card">
             <h2>🗑️ {bin.name}</h2>

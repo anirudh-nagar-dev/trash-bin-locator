@@ -3,17 +3,28 @@ import Navbar from "./Components/Navbar.jsx";
 import BinCard from "./Components/BinCard.jsx";
 import trashBins from "./data.js";
 import Map from "./Components/Map.jsx"
+import calculateDistance from "./distance.js";
 
 function App() {
   const [search,setSearch] = useState("");
   const [status,setStatus] = useState("All");
   const [userLocation,setUserLocation] = useState(null);
+  const binsWithDistance = userLocation ? trashBins.map((bin)=>({
+          ...bin,
+          distance: calculateDistance(
+            userLocation[0],
+            userLocation[1],
+            bin.latitude,
+            bin.longitude
+          ),
+  }))
+  : trashBins;
 
-  const filteredBins = trashBins.filter((bin) => {
+  const filteredBins = binsWithDistance.filter((bin) => {
     const matchesSearch = bin.name.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = status === "All" || bin.status === status;
     return matchesSearch && matchesStatus
-});
+}).sort((a,b) => a.distance - b.distance);
 
   return (
     <div>
