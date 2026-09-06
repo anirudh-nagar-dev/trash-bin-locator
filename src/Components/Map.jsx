@@ -57,6 +57,15 @@ function Map({ userLocation,setUserLocation }) {
                         <br/>
                         📏 {distance != null ?
                         distance.toFixed(2) : "..."} km away
+                        <br />
+                        <button onClick ={()=>
+                            window.open(
+                                `https://www.google.com/maps/dir/?api=1&destination=${bin.latitude},${bin.longitude}`,"_blank"
+                            )
+                        }
+                        > 
+                          Get Directions 
+                        </button>
                     </Popup>
                 </Marker>
                 );

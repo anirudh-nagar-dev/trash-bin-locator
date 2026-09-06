@@ -35,7 +35,12 @@ function BinCard({ bin,userLocation }){
             <p className="status" style={statusStyle}>
                 ♻️ Status: {bin.status}
             </p>
-            <button onClick = {()=> window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(bin.location)}`,"_blank")}>
+            <button onClick = {()=> 
+                window.open(
+                    `https://www.google.com/maps/dir/?api=1&destination=${bin.latitude},${bin.longitude}`,"_blank"
+                )
+                }
+            >
              Get Directions</button>
 
 
