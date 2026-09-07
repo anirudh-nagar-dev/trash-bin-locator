@@ -1,4 +1,12 @@
-const trashBins = [
+import express from "express";
+import cors from "cors";
+
+
+const app = express();
+
+const PORT = 5000;
+
+const bins = [
   {
     id: 1,
     name: "Main Gate Bin",
@@ -30,7 +38,17 @@ const trashBins = [
     status: "Full",
     latitude: 28.6125,
     longitude: 77.2075
-  },
-];
+  }];
 
-export default trashBins;
+app.use(cors({origin:'http://localhost:5173'}));
+
+app.get("/", (req,res) => {
+    res.send("Trash Bin Locator Backend working");
+});
+app.get("/api/bins",(req,res)=>{
+    res.json(bins);
+});
+
+app.listen(PORT, () =>{
+    console.log(`Server running on port ${PORT}`);
+});

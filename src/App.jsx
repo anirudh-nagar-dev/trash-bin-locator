@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Components/Navbar.jsx";
 import BinCard from "./Components/BinCard.jsx";
-import trashBins from "./data.js";
 import Map from "./Components/Map.jsx"
 import calculateDistance from "./distance.js";
 
@@ -9,7 +8,10 @@ function App() {
   const [search,setSearch] = useState("");
   const [status,setStatus] = useState("All");
   const [userLocation,setUserLocation] = useState(null);
-  const binsWithDistance = userLocation ? trashBins.map((bin)=>({
+
+  const [bins,setBins] = useState([]);
+
+  const binsWithDistance = userLocation ? bins.map((bin)=>({
           ...bin,
           distance: calculateDistance(
             userLocation[0],
@@ -18,7 +20,7 @@ function App() {
             bin.longitude
           ),
   }))
-  : trashBins;
+  : bins;
 
   const filteredBins = binsWithDistance.filter((bin) => {
     const matchesSearch = bin.name.toLowerCase().includes(search.toLowerCase());
@@ -26,6 +28,14 @@ function App() {
     return matchesSearch && matchesStatus
 }).sort((a,b) => a.distance - b.distance);
 
+useEffect(()=>{
+  fetch("http://localhost:5000/api/bins").then((response)=>
+  response.json())
+  .then((data)=>{
+    setBins(data);
+  });
+},[]);
+console.log("backend bins:" ,bins);
   return (
     <div>
       <Navbar />
@@ -42,7 +52,9 @@ function App() {
           </select>
         </section>
         <Map userLocation={userLocation} 
-        setUserLocation={setUserLocation} />
+        setUserLocation={setUserLocation} 
+        bins = {bins}
+        />
         <section className="bin-list">
           {filteredBins.length>0 ?(filteredBins.map(
             (bin) => (

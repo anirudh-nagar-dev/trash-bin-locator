@@ -1,4 +1,3 @@
-import trashBins from "../data.js";
 import { MapContainer, TileLayer, Marker, Popup,useMap } from "react-leaflet";
 import { useState, useEffect } from "react";
 import "leaflet/dist/leaflet.css";
@@ -16,7 +15,7 @@ function MapUpdater({userLocation}){
     return null;
 }
 
-function Map({ userLocation,setUserLocation }) {
+function Map({ userLocation,setUserLocation,bins }) {
 
     useEffect(() =>{
     navigator.geolocation.getCurrentPosition((position)=>{
@@ -34,7 +33,7 @@ function Map({ userLocation,setUserLocation }) {
             attribution='&copy;OpenStreetMap contributors'
             
             url = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
-            {trashBins.map((bin)=>{
+            {bins.map((bin)=>{
                 const distance = userLocation 
                  ? calculateDistance(
                     userLocation[0],
