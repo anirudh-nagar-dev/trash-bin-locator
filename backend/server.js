@@ -60,6 +60,20 @@ app.post("/api/bins",async(req,res)=>{
   }
 });
 
+app.delete("/api/bins/:id", async (req,res)=>{
+  try{const bin = await Bin.findOneAndDelete({
+    id: Number(req.params.id)
+  });
+  if(!bin){
+    return res.status(404).json({ message: "Bin not found" });
+  }
+  res.json({ message: "Bin deleted successfully", bin });
+} catch(error){
+  console.error("DELETE ERROR: ",error)
+  res.status(500).json({ message: "Failed to delete bin" });
+}
+});
+
 
 app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`);
