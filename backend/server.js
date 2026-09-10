@@ -29,6 +29,21 @@ app.get("/api/bins", async (req,res)=>{
    }
 });
 
+app.get("/api/bins/:id", async (req,res)=>{
+  try{
+    const bin = await Bin.findOne({
+      id: Number(req.params.id)
+    });
+    if(!bin){
+      return res.status(404).json({ message: "Bin not found" });
+    }
+    res.json(bin);
+  } catch(error){
+    console.error("GET ONE ERROR: ",error)
+    res.status(500).json({message: "Failed to fetch bin"});
+  }
+});
+
 app.patch("/api/bins/:id", async (req,res) =>{
   try{
     const bin = await Bin.findOneAndUpdate(
@@ -56,9 +71,12 @@ app.post("/api/bins",async(req,res)=>{
     res.status(201).json(newBin);
   }catch(error){
     console.error("POST ERROR: ",error);
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "Failed to create bin",
+      error: error.message
+     });
   }
 });
+
 
 app.delete("/api/bins/:id", async (req,res)=>{
   try{const bin = await Bin.findOneAndDelete({
