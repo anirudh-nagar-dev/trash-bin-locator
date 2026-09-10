@@ -1,53 +1,55 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import Bin from "./models/Bin.js";
 
+dotenv.config();
+
+mongoose.connect(process.env.MONGODB_URI)
+.then(()=> console.log("MongoDB connected successfully"))
+.catch((error)=>
+console.error("MongoDb connection failed: ",error));
 
 const app = express();
 
 const PORT = 5000;
 
-const bins = [
-  {
-    id: 1,
-    name: "Main Gate Bin",
-    location: "near College Main Gate",
-    status: "Available",
-    latitude: 28.6145,
-    longitude: 77.2095
-  },
-  {
-    id: 2,
-    name: "Library Bin",
-    location: "next to the Library",
-    status: "Almost Full",
-    latitude: 28.6155,
-    longitude: 77.2105
-  },
-  {
-    id: 3,
-    name: "Cafeteria Bin",
-    location: "Near College Cafeteria",
-    status: "Available",
-    latitude: 28.6135,
-    longitude: 77.2085
-  },
-  {
-    id: 4,
-    name: "Ground Bin",
-    location: "College Ground Corner",
-    status: "Full",
-    latitude: 28.6125,
-    longitude: 77.2075
-  }];
 
+app.use(express.json());
 app.use(cors({origin:'http://localhost:5173'}));
 
 app.get("/", (req,res) => {
     res.send("Trash Bin Locator Backend working");
 });
-app.get("/api/bins",(req,res)=>{
-    res.json(bins);
+app.get("/api/bins", async (req,res)=>{
+  try{ const bins = await Bin.find(); 
+   res.json(bins);} catch(error){
+    res.status(500).json({message: "Failed to fetch bins"});
+   }
 });
+
+app.patch("/api/bins/:id", async (req,res) =>{
+  try{
+    const bin = await Bin.findOneAndUpdate(
+      { id: Number(req.params.id) },
+      { status: req.body.status },
+      { new: true,
+        runValidators: true
+       }
+    );
+    if(!bin){
+      return res.status(404).json({
+        message: "Bin not found"
+      });
+    }
+    res.json(bin);
+  } catch(error){
+    console.error("patch error: ",error);
+    res.status(400).json({ message: error.message });
+  }
+});
+
 
 app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`);

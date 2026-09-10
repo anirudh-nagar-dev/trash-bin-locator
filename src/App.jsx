@@ -34,7 +34,8 @@ useEffect(()=>{
   .then((data)=>{
     setBins(data);
   });
-},[]);
+},[]); 
+
 console.log("backend bins:" ,bins);
   return (
     <div>
