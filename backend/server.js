@@ -50,6 +50,16 @@ app.patch("/api/bins/:id", async (req,res) =>{
   }
 });
 
+app.post("/api/bins",async(req,res)=>{
+  try{
+    const newBin = await Bin.create(req.body);
+    res.status(201).json(newBin);
+  }catch(error){
+    console.error("POST ERROR: ",error);
+    res.status(400).json({ message: error.message });
+  }
+});
+
 
 app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`);
