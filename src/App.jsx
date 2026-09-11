@@ -37,6 +37,29 @@ useEffect(()=>{
 },[]); 
 
 console.log("backend bins:" ,bins);
+const handleStatusChange = async (id, newStatus)=>{
+  try{
+    const response = await fetch(`http://localhost:5000/api/bins/${id}`,{
+      method: "PATCH",
+      headers:{
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        status: newStatus
+      })
+    });
+    const updatedBin = await response.json();
+    if(!response.ok){
+      console.error("Failed to update bin: ",updatedBin);
+      return;
+    }
+    setBins((currentBins)=>
+    currentBins.map((bin)=>
+    bin.id===id ? updatedBin : bin));
+  } catch(error){
+    console.error("Status update error: ",error);
+  }
+};
   return (
     <div>
       <Navbar />
@@ -59,7 +82,12 @@ console.log("backend bins:" ,bins);
         <section className="bin-list">
           {filteredBins.length>0 ?(filteredBins.map(
             (bin) => (
-              <BinCard key={bin.id} bin={bin} userLocation={userLocation} />
+              <BinCard 
+              key={bin.id} 
+              bin={bin} 
+              userLocation={userLocation} 
+              onStatusChange={handleStatusChange}
+              />
             ))):(<p>No trash bins found.</p>)}
         </section>
       </main>
