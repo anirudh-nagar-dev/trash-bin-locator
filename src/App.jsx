@@ -10,6 +10,8 @@ function App() {
   const [userLocation,setUserLocation] = useState(null);
 
   const [bins,setBins] = useState([]);
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState(null);
 
   const binsWithDistance = userLocation ? bins.map((bin)=>({
           ...bin,
@@ -29,10 +31,19 @@ function App() {
 }).sort((a,b) => a.distance - b.distance);
 
 useEffect(()=>{
-  fetch("http://localhost:5000/api/bins").then((response)=>
-  response.json())
+  fetch("http://localhost:5000/api/bins").then((response)=>{
+    if(!response.ok){
+      throw new Error("Failed to fetch bins");
+    }
+  return response.json();})
   .then((data)=>{
     setBins(data);
+    setLoading(false);
+  })
+  .catch((err)=>{
+    console.error("Error fetching bins: ",err);
+    setError("Unable to load bins");
+    setLoading(false);
   });
 },[]); 
 
@@ -80,7 +91,11 @@ const handleStatusChange = async (id, newStatus)=>{
         bins = {bins}
         />
         <section className="bin-list">
-          {filteredBins.length>0 ?(filteredBins.map(
+          {error?<div className="error-message">⚠️{error}<br/>
+            <button onClick={() => window.location.reload()}>
+             Retry
+           </button>
+          </div>:loading?<p>Loading Bins...</p>:filteredBins.length>0 ?(filteredBins.map(
             (bin) => (
               <BinCard 
               key={bin.id} 

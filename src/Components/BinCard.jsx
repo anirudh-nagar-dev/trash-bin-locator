@@ -1,7 +1,9 @@
 import calculateDistance from "../distance.js";
+import { useState } from "react";
 
 
 function BinCard({ bin, userLocation, onStatusChange }){
+    const [updating,setUpdating] = useState(false);
     let statusStyle = {
         color: "white",
         backgroundColor: "#15803d",
@@ -26,17 +28,17 @@ function BinCard({ bin, userLocation, onStatusChange }){
         bin.longitude
       )
      : null; 
-     const handleStatusChange = (event) => {
-        onStatusChange(bin.id,event.target.value);
+     const handleStatusChange = async (event) => {
+        setUpdating(true);
+        await onStatusChange(bin.id,event.target.value);
+        setUpdating(false);
      };
     return (
         <div className="bin-card">
             <h2>🗑️ {bin.name}</h2>
-
-            <p>📍 {bin.location}</p>
             <p>📏 {distance != null ? distance.toFixed(2) : "..."} km away</p>
             <div className="status" style={statusStyle}>
-                ♻️ Status: <select value={bin.status} onChange={handleStatusChange}>
+                ♻️ Status: <select value={bin.status} onChange={handleStatusChange} disabled={updating}>
                     <option value="Available">Available</option>
                     <option value="Almost Full">Almost Full</option>
                     <option value="Full">Full</option>
