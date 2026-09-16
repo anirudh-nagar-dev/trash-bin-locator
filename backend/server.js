@@ -67,7 +67,12 @@ app.patch("/api/bins/:id", async (req,res) =>{
 
 app.post("/api/bins",async(req,res)=>{
   try{
-    const newBin = await Bin.create(req.body);
+    const lastBin = await Bin.findOne().sort({ id:-1 });
+    const newId = lastBin ? lastBin.id + 1 : 1;
+    const newBin = await Bin.create({
+      ...req.body,
+      id: newId
+    });
     res.status(201).json(newBin);
   }catch(error){
     console.error("POST ERROR: ",error);

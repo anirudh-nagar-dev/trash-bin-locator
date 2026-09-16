@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 
 
 const binSchema = new mongoose.Schema({
-    id: Number,
+    id: {
+        type: Number,
+        unique: true
+    },
     name: String,
     status: {
         type: String,

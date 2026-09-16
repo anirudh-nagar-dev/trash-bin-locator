@@ -118,6 +118,14 @@ main{
     width: 100%;
     max-width: 500px;
   }
+  .add-bin {
+  padding: 18px;
+  margin-top: 30px;
+}
+
+.add-bin h2 {
+  font-size: 24px;
+}
 }
 
 .hero input{
@@ -145,4 +153,56 @@ main{
 
 .status{
   font-weight: bold;
+}
+.add-bin {
+  margin-top: 40px;
+  padding: 25px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.add-bin h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-bin form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.add-bin input,
+.add-bin select {
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.add-bin input:focus,
+.add-bin select:focus {
+  border-color: #166534;
+}
+
+.add-bin button {
+  margin-top: 5px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #166534;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-bin button:hover {
+  background: #14532d;
+}
+
+.add-bin button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
 }

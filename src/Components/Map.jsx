@@ -50,8 +50,6 @@ function Map({ userLocation,setUserLocation,bins }) {
                     <Popup>
                         <strong>{bin.name}</strong>
                         <br/>
-                        📍 {bin.location}
-                        <br/>
                         🟢 Status: {bin.status}
                         <br/>
                         📏 {distance != null ?

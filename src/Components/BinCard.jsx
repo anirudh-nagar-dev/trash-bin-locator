@@ -30,8 +30,11 @@ function BinCard({ bin, userLocation, onStatusChange }){
      : null; 
      const handleStatusChange = async (event) => {
         setUpdating(true);
-        await onStatusChange(bin.id,event.target.value);
-        setUpdating(false);
+         try {
+    await onStatusChange(bin.id, event.target.value);
+  } finally {
+    setUpdating(false);
+  }
      };
     return (
         <div className="bin-card">
