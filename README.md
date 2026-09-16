@@ -1,16 +1,121 @@
-# React + Vite
+# 🗑️ Trash Bin Locator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web application that helps users find nearby trash bins using their current location. Users can search and filter bins, view them on an interactive map, check their distance, update bin status, and add new bins.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- 📍 Detects the user's current location
+- 🗺️ Displays trash bins on an interactive map
+- 📏 Calculates distance between the user and each bin
+- 🔎 Search bins by name
+- ♻️ Filter bins by status
+- ➕ Add new trash bins
+- 🔄 Update bin status
+- ✅ Form validation and error handling
+- 🧭 Get directions to a bin using Google Maps
+- 📱 Responsive user interface
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
+- React
+- Vite
+- React Leaflet
+- Leaflet
+- HTML
+- CSS
+- JavaScript
 
-## Expanding the ESLint configuration
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## How It Works
+
+The React frontend communicates with an Express.js backend through REST API endpoints. Bin data is stored in MongoDB Atlas.
+
+The application obtains the user's location through the browser's Geolocation API and uses latitude and longitude coordinates to calculate the distance to nearby bins.
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/bins` | Get all trash bins |
+| POST | `/api/bins` | Add a new trash bin |
+| PATCH | `/api/bins/:id` | Update a bin's status |
+
+## Project Structure
+
+```text
+trash-bin-locator/
+├── backend/
+│   ├── models/
+│   │   └── Bin.js
+│   └── server.js
+│
+├── src/
+│   ├── Components/
+│   │   ├── Navbar.jsx
+│   │   ├── BinCard.jsx
+│   │   └── Map.jsx
+│   ├── App.jsx
+│   ├── distance.js
+│   ├── index.css
+│   └── main.jsx
+│
+├── package.json
+└── README.md
+## Running Locally
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd trash-bin-locator
+```
+
+### 2. Install frontend dependencies
+
+```bash
+npm install
+```
+
+### 3. Install backend dependencies
+
+```bash
+cd backend
+npm install
+```
+
+### 4. Configure environment variables
+
+Create an environment file in the `backend` directory and add your MongoDB connection string:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
+
+> ⚠️ Never commit your environment file or expose your MongoDB connection string publicly.
+
+### 5. Start the backend
+
+```bash
+node server.js
+```
+
+### 6. Start the frontend
+
+From the project root:
+
+```bash
+npm run dev
+```
+
+## Future Improvements
+
+- User authentication and admin access
+- More advanced location-based search
+- Improved map markers based on bin status
+- Deployment for public access
