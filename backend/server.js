@@ -17,7 +17,11 @@ const PORT = process.env.PORT || 5000;
 
 
 app.use(express.json());
-app.use(cors({origin:'http://localhost:5173'}));
+app.use(cors({
+  origin:[
+    'http://localhost:5173',
+    'https://trash-bin-locator.vercel.app'
+  ]}));
 
 app.get("/", (req,res) => {
     res.send("Trash Bin Locator Backend working");
