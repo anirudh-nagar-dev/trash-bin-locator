@@ -102,7 +102,7 @@ const handleAddBin = async (event) =>{
 }
      setAddingBin(true);
   try{
-    const response = await fetch(`${API_URL}/api/bins/${id}`,{
+    const response = await fetch(`${API_URL}/api/bins}`,{
       method: "POST",
       headers:{
         "Content-Type": "application/json"
