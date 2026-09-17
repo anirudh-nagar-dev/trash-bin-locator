@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(cors({
   origin:[
     'http://localhost:5173',
-    'https://trash-bin-locator.vercel.app'
+    'https://trash-bin-locator-git-main-anirudh-nagar-dev.vercel.app'
   ]}));
 
 app.get("/", (req,res) => {
