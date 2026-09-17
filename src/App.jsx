@@ -4,6 +4,8 @@ import BinCard from "./Components/BinCard.jsx";
 import Map from "./Components/Map.jsx"
 import calculateDistance from "./distance.js";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function App() {
   const [search,setSearch] = useState("");
   const [status,setStatus] = useState("All");
@@ -40,7 +42,7 @@ function App() {
 }).sort((a,b) => a.distance - b.distance);
 
 useEffect(()=>{
-  fetch("http://localhost:5000/api/bins").then((response)=>{
+  fetch(`${API_URL}/api/bins`).then((response)=>{
     if(!response.ok){
       throw new Error("Failed to fetch bins");
     }
@@ -58,7 +60,7 @@ useEffect(()=>{
 
 const handleStatusChange = async (id, newStatus)=>{
   try{
-    const response = await fetch(`http://localhost:5000/api/bins/${id}`,{
+    const response = await fetch(`${API_URL}/api/bins/${id}`,{
       method: "PATCH",
       headers:{
         "Content-Type": "application/json"
@@ -100,7 +102,7 @@ const handleAddBin = async (event) =>{
 }
      setAddingBin(true);
   try{
-    const response = await fetch("http://localhost:5000/api/bins",{
+    const response = await fetch(`${API_URL}/api/bins/${id}`,{
       method: "POST",
       headers:{
         "Content-Type": "application/json"
